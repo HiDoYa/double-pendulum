@@ -5,6 +5,7 @@ import pygame
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (205, 205, 205)
+DARK_GRAY = (155, 155, 155)
 BLUE = (163, 198, 255)
 RED = (255, 173, 163)
 
@@ -41,6 +42,20 @@ node_2_pos = [640, 650]
 
 clock = pygame.time.Clock()
 
+# TODO
+class Node:
+    def __init__ (self, mass, position_x, position_y, color):
+        self.mass = mass
+        self.position = [position_x, position_y]
+        self.color = color
+        self.velocity = []
+    def one_tick(self):
+        self.position[0] += self.velocity[0]
+        self.position[1] += self.velocity[1]
+    def change_velocity(self):
+        print("Test")
+        
+
 def mouse_in_circ(node_pos):
     mouse_pos = pygame.mouse.get_pos()
     
@@ -61,12 +76,14 @@ def check_drag_target():
 
     if not started:
         init_mouse_pos = pygame.mouse.get_pos()
-        init_displacement[0] = node_1_pos[0] - node_0_pos[0]
-        init_displacement[1] = node_1_pos[1] - node_0_pos[1]
 
         if mouse_in_circ(node_1_pos):
+            init_displacement[0] = node_1_pos[0] - node_0_pos[0]
+            init_displacement[1] = node_1_pos[1] - node_0_pos[1]
             drag_target = 1
         elif mouse_in_circ(node_2_pos):
+            init_displacement[0] = node_2_pos[0] - node_1_pos[0]
+            init_displacement[1] = node_2_pos[1] - node_1_pos[1]
             drag_target = 2
         else:
             # No target selected
@@ -113,11 +130,11 @@ def run_sim():
     cm_1 = []
     cm_2 = []
 
-    height_1 = (node_1_pos[1] - node_0_pos[1]) - (node_0_pos[1] - dist_nodes)
-    PE_1 = mass_1 * grav * (node_1_pos[1] - node_0_pos[1])
-    # let height be the height from its lowest point possible
+    height_1 = (node_0_pos[1] - dist_nodes) - (node_1_pos[1] - node_0_pos[1])
+    PE_1 = mass_1 * grav * (height_1)
+    height_2 = (node_1_pos[1] - dist_nodes) - (node_2_pos[1] - node_1_pos[1])
+    PE_2 = mass_2 * grav * (height_2)
 
-    # L = KE(rotational) + KE(linear) - PE
 
 def coords_chg(coord, obj_heigh):
     return (coord[0], height - coord[1] - obj_height)
@@ -156,10 +173,11 @@ while not done:
     pygame.draw.circle(screen, BLACK, node_1_pos, radius, node_border)
     pygame.draw.circle(screen, BLACK, node_2_pos, radius, node_border)
 
+    # Circle guideline
     if drag and drag_target == 1:
-        pygame.draw.circle(screen, BLACK, node_0_pos, dist_nodes, node_border)
+        pygame.draw.circle(screen, DARK_GRAY, node_0_pos, dist_nodes, node_border)
     elif drag and drag_target == 2:
-        pygame.draw.circle(screen, BLACK, node_1_pos, dist_nodes, node_border)
+        pygame.draw.circle(screen, DARK_GRAY, node_1_pos, dist_nodes, node_border)
 
     # Update
     pygame.display.flip()
