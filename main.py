@@ -343,9 +343,9 @@ def draw_instr():
     global started
 
     screen.blit(text_instr_0, (30, 10))
-    screen.blit(text_instr_1, (30, 45))
-    screen.blit(text_instr_2, (30, 80))
-    screen.blit(text_instr_3, (900, 10))
+    screen.blit(text_instr_1, (780, 10))
+    screen.blit(text_instr_2, (30, 45))
+    screen.blit(text_instr_3, (900, 45))
 
     if started:
         screen.blit(text_instr_stop, (30, 650))
@@ -353,11 +353,11 @@ def draw_instr():
         screen.blit(text_instr_start, (30, 650))
 
     if cur_pend_select == 0:
-        screen.blit(text_instr_r, (1210, 10))
+        screen.blit(text_instr_r, (1210, 45))
     elif cur_pend_select == 1:
-        screen.blit(text_instr_g, (1210, 10))
+        screen.blit(text_instr_g, (1210, 45))
     elif cur_pend_select == 2:
-        screen.blit(text_instr_b, (1210, 10))
+        screen.blit(text_instr_b, (1210, 45))
 
     error_time += 1;
     if disp_error_text and error_time < 90:
@@ -416,6 +416,7 @@ while not done:
 
     if pressed[pygame.K_s] and time_pass > 20:
         time_pass = 0
+        reset_old_paths(pend_0, pend_1, pend_2)
         keep_draw = not keep_draw
 
     # The actual adjustment
