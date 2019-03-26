@@ -1,7 +1,7 @@
 import math
 import pygame
 
-from pgu import gui
+# from pgu import gui
 
 # Colors
 BLACK = (0, 0, 0)
@@ -342,7 +342,7 @@ def reset_all(pend_0, pend_1, pend_2):
     pend_1.reset()
     pend_2.reset()
     grav = 1
-    form['grav'].value = grav * 10
+    # form['grav'].value = grav * 10
 
 # Instructions
 text = pygame.font.SysFont("Gill Sans", 25)
@@ -398,26 +398,27 @@ def draw_instr():
         screen.blit(text_error, (450, 500))
 
 # Sliders
-form = gui.Form()
-app = gui.App()
-table = gui.Table()
+# Removed gui since library is no longer maintained
+# form = gui.Form()
+# app = gui.App()
+# table = gui.Table()
+# 
+# table.tr()
+# table.td(gui.Label("Length 1"))
+# table.td(gui.HSlider(value = 200, min = 50, max = 220, size = 20, width = 200, name='length_1'))
+# 
+# table.tr()
+# table.td(gui.Label("Length 2"))
+# table.td(gui.HSlider(value = 200, min = 50, max = 220, size = 20, width = 200, name='length_2'))
+# 
+# table.tr()
+# table.td(gui.Label("Gravity"))
+# table.td(gui.HSlider(value = 10, min = 1, max = 50, size = 20, width = 200, name='grav'))
 
-table.tr()
-table.td(gui.Label("Length 1"))
-table.td(gui.HSlider(value = 200, min = 50, max = 220, size = 20, width = 200, name='length_1'))
-
-table.tr()
-table.td(gui.Label("Length 2"))
-table.td(gui.HSlider(value = 200, min = 50, max = 220, size = 20, width = 200, name='length_2'))
-
-table.tr()
-table.td(gui.Label("Gravity"))
-table.td(gui.HSlider(value = 10, min = 1, max = 50, size = 20, width = 200, name='grav'))
-
-container = gui.Container(align = 0.9, valign = 0.9)
-container.add(table, 0, 0)
-
-app.init(container)
+# container = gui.Container(align = 0.9, valign = 0.9)
+# container.add(table, 0, 0)
+# 
+# app.init(container)
 
 # 3 pendulums max
 pend_0 = Doub_Pendulum(dist_nodes, dist_nodes, RED, D_RED)
@@ -442,15 +443,18 @@ while not done:
                 pend_1.drag = False
             elif cur_pend_select == 2:
                 pend_2.drag = False
-        if not started:
-            app.event(event)
+        # if not started:
+            # app.event(event)
 
     pressed = pygame.key.get_pressed()
 
     # Sliders update
-    len_1 = form['length_1'].value
-    len_2 = form['length_2'].value
-    grav = form['grav'].value / 10
+    # len_1 = form['length_1'].value
+    # len_2 = form['length_2'].value
+    # grav = form['grav'].value / 10
+    len_1 = 200
+    len_2 = 200
+    grav = 1
 
     set_len_pend(len_1, len_2)
 
@@ -458,26 +462,26 @@ while not done:
     if pressed[pygame.K_1] and time_pass > 20:
         cur_pend_select = 0
         time_pass = 0
-
-        form['length_1'].value = pend_0.len_1
-        form['length_2'].value = pend_0.len_2
-
+ 
+        # form['length_1'].value = pend_0.len_1
+        # form['length_2'].value = pend_0.len_2
+ 
     if pressed[pygame.K_2] and time_pass > 20:
         pend_list[1] = True
         cur_pend_select = 1
         time_pass = 0
-
-        form['length_1'].value = pend_1.len_1
-        form['length_2'].value = pend_1.len_2
-
+ 
+        # form['length_1'].value = pend_1.len_1
+        # form['length_2'].value = pend_1.len_2
+ 
     if pressed[pygame.K_3] and time_pass > 20:
         pend_list[2] = True
         cur_pend_select = 2
         time_pass = 0
-
-        form['length_1'].value = pend_2.len_1
-        form['length_2'].value = pend_2.len_2
-
+ 
+        # form['length_1'].value = pend_2.len_1
+        # form['length_2'].value = pend_2.len_2
+ 
     if pressed[pygame.K_a] and not started and time_pass > 20:
         keep_draw = not keep_draw
         time_pass = 0
@@ -519,7 +523,7 @@ while not done:
     screen.fill(GRAY)
     draw(pend_0, pend_1, pend_2, pend_list)
     draw_instr()
-    app.paint()
+    # app.paint()
     pygame.display.flip()
 
     # 60 FPS
